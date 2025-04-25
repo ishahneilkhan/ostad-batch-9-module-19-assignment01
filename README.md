@@ -1,9 +1,6 @@
 # task_manager
 
-A new Flutter project.
-
-## Getting Started
-
+A simple and clean Task Manager app built using **Flutter**. This app allows users to add, view, and delete tasks easily.
 This project is a starting point for a Flutter application.
 
 A few resources to get you started if this is your first Flutter project:
