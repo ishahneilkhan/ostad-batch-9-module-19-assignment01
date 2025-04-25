@@ -11,25 +11,9 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the 
 [online documentation](https://docs.flutter.dev/), which offers tutorials, samples, guidance on mobile development, and a full API reference.
 
-## 🚀 Features
+## Features
 
 - Add new tasks
 - View a list of added tasks
 - Delete tasks with a single tap
 - Clean and minimal UI
-
-## 📱 Screenshots
-
-> _Coming Soon..._
-
-## 🛠️ Getting Started
-
-To run this project on your local machine:
-
-1. **Clone the repository**  
-   ```bash
-   git clone https://github.com/your-username/task_manager_task.git
-   cd task_manager_task
-Install dependencies
-
-
