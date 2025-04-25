@@ -1,1 +1,2 @@
-# ostad-batch-9-module-19
+Task Manager App (Flutter)
+A simple Task Manager mobile app built with Flutter, featuring API integration to fetch and add tasks.
