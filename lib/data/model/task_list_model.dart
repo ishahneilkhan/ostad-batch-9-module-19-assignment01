@@ -1,19 +1,25 @@
-import 'package:task_manager_task/data/model/task_details_model.dart';
+class TaskModel {
+  String? sId;
+  String? title;
+  String? description;
+  String? status;
+  String? email;
+  String? createdDate;
 
-class TaskListModel {
-  late final String status;
-  late final List<TaskDetailsModel> taskList;
+  TaskModel(
+      {this.sId,
+        this.title,
+        this.description,
+        this.status,
+        this.email,
+        this.createdDate});
 
-  TaskListModel.fromJson(Map<String, dynamic> jsonData) {
-    status = jsonData['status'];
-    if (jsonData['data'] != null) {
-      List<TaskDetailsModel> list = [];
-      for (Map<String, dynamic> task in jsonData['data']) {
-        list.add(TaskDetailsModel.fromJson(task));
-      }
-      taskList = list;
-    } else {
-      taskList = [];
-    }
+  TaskModel.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    title = json['title'];
+    description = json['description'];
+    status = json['status'];
+    email = json['email'];
+    createdDate = json['createdDate'];
   }
 }
