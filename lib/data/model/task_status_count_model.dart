@@ -1,15 +1,11 @@
-class TaskStatusCountModel {
-  final String status;
-  final String count;
+class TaskStatusModel {
+  String? sId;
+  int? sum;
 
-  TaskStatusCountModel({required this.status, required this.count});
+  TaskStatusModel({this.sId, this.sum});
 
-  factory TaskStatusCountModel.convertJsonToDart(
-    Map<String, dynamic> jsonData,
-  ) {
-    return TaskStatusCountModel(
-      status: jsonData['_id'],
-      count: jsonData['sum'].toString(),
-    );
+  TaskStatusModel.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    sum = json['sum'];
   }
 }
