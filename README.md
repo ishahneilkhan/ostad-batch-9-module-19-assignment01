@@ -22,7 +22,7 @@ This project is a starting point for learning how to use **GetX** with **API int
 ##  Features
 
 -  Built using **Flutter** and **GetX**
--  Integrated with a **REST API** (e.g. MockAPI or JSONPlaceholder)
+-  Integrated with a **REST API** 
 -  GetX Controller for **state management**
 -  Add new tasks
 -  Delete tasks
