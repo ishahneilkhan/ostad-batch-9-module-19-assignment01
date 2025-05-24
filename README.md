@@ -25,6 +25,3 @@ This project is part of the **Ostad Batch 9 Module-19 assignment** focused on **
 - **MockAPI / JSONPlaceholder** – Backend simulation
 
 ---
-
-##  Project Structure
-
