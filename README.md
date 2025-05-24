@@ -1,20 +1,29 @@
-# OstadBatch9Module-19
+# 📱 Task Manager App - Ostad Batch 9, Module 19
 
-# Task manager with API integration
-A simple and clean Task Manager app built using **Flutter**. This app allows users to add, view, and delete tasks easily.
-This project is a starting point for a Flutter application.
+A simple and clean **Task Manager** app built using **Flutter** and **GetX**.  
+This project is part of the **Ostad Batch 9 Module-19 assignment** focused on **API integration** in Flutter apps. The app allows users to easily add, view, and delete tasks with a responsive UI and RESTful API integration.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the 
-[online documentation](https://docs.flutter.dev/), which offers tutorials, samples, guidance on mobile development, and a full API reference.
+---
 
 ## Features
 
-- Add new tasks
-- View a list of added tasks
-- Delete tasks with a single tap
-- Clean and minimal UI
+- ➕ Add new tasks via API
+- 📋 View a list of added tasks
+- ❌ Delete tasks with a single tap
+- ⚡ Real-time updates with GetX
+- 🧼 Clean and minimal UI
+
+---
+
+## Tech Stack
+
+- **Flutter** – UI development
+- **Dart** – Programming language
+- **GetX** – State management & navigation
+- **HTTP** – For API calls
+- **MockAPI / JSONPlaceholder** – Backend simulation
+
+---
+
+##  Project Structure
+
