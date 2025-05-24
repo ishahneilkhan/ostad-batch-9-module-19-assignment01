@@ -1,7 +1,6 @@
 # OstadBatch9Module-19
 
-# task_manager
-
+# Task manager with API integration
 A simple and clean Task Manager app built using **Flutter**. This app allows users to add, view, and delete tasks easily.
 This project is a starting point for a Flutter application.
 
