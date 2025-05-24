@@ -37,3 +37,7 @@ This project is a starting point for learning how to use **GetX** with **API int
 ### Step 1: Clone the repository
 ```bash
 git clone https://github.com/your-username/task-manager_getx_api.git
+cd task-manager_getx_api
+
+flutter pub get
+flutter run
