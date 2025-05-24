@@ -27,12 +27,12 @@ This project is a starting point for learning how to use **GetX** with **API int
 -  Add new tasks
 -  Delete tasks
 -  View list of tasks (from API)
-- ♻ Real-time updates using **Obx**
+-  Real-time updates using **Obx**
 -  Clean UI with **Material Design**
 
 ---
 
-## 🛠 Installation
+##  Installation
 
 ### Step 1: Clone the repository
 ```bash
