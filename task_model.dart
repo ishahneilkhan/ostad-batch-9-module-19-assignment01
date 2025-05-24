@@ -1,6 +1,13 @@
 class Task {
+  final String id;
   final String title;
-  final String description;
 
-  Task({required this.title, required this.description});
+  Task({required this.id, required this.title});
+
+  factory Task.fromJson(Map<String, dynamic> json) {
+    return Task(
+      id: json['id'].toString(),
+      title: json['title'],
+    );
+  }
 }
