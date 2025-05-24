@@ -1,133 +1,46 @@
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:logger/logger.dart';
-import 'package:task_manager_task/app.dart';
-import 'package:task_manager_task/ui/controller/auth_controller.dart';
-import 'package:task_manager_task/ui/widgets/pop_up_message.dart';
 
-class NetworkResponse {
-  final bool isSuccess;
-  final int statusCode;
-  final Map<String, dynamic>? data;
-  final String? errorMessage;
+import '../../app.dart';
+import '../../ui/controllers/auth_controller.dart';
+import '../../ui/screens/sign_in_screen.dart';
+import '../models/network_response.dart';
 
-  NetworkResponse({
-    required this.isSuccess,
-    required this.statusCode,
-    this.data,
-    this.errorMessage = 'Something went wrong',
-  });
-}
 
-class NetworkClient {
-  static final Logger _logger = Logger();
-
+class NetworkCaller {
   static Future<NetworkResponse> getRequest({required String url}) async {
-    try {
-      Map<String, String> headers = {'token': AuthController.token ?? ''};
-      Uri uri = Uri.parse(url);
-      _preRequestLog(url: url, headers: headers);
-      Response response = await get(uri, headers: headers);
-      _postRequestLog(
-        response.statusCode,
-        url,
-        headers: response.headers,
-        body: response.body,
-      );
-      if (response.statusCode == 200) {
-        final decodedJson = jsonDecode(response.body);
-        return NetworkResponse(
-          isSuccess: true,
-          statusCode: response.statusCode,
-          data: decodedJson,
-        );
-      } else if (response.statusCode == 401) {
-        _moveToLoginScreen();
-        return NetworkResponse(
-          isSuccess: false,
-          statusCode: response.statusCode,
-          errorMessage: 'Login Expired',
-        );
-      } else {
-        return NetworkResponse(
-          isSuccess: false,
-          statusCode: response.statusCode,
-        );
-      }
-    } catch (e) {
-      if(e is SocketException){
-        showPopUp(TaskManager.navigatorKey.currentContext, 'Check your internet connection');
-      }
-        _postRequestLog(-1, url);
-        return NetworkResponse(
-          isSuccess: false,
-          statusCode: -1,
-          errorMessage: e.toString(),
-        );
-
-    }
-  }
-
-  static Future<NetworkResponse> postRequest({
-    required String url,
-    Map<String, dynamic>? body,
-  }) async {
     try {
       Uri uri = Uri.parse(url);
       Map<String, String> headers = {
-        'Content-type': 'Application/json',
-        'token': AuthController.token ?? '',
+        'token': AuthController.accessToken.toString(),
       };
-      _preRequestLog(url: url, body: body, headers: headers);
-      Response response = await post(
-        uri,
-        headers: headers,
-        body: jsonEncode(body),
-      );
-      _postRequestLog(
-        response.statusCode,
-        url,
-        body: jsonDecode(response.body),
-        headers: response.headers,
-      );
-
+      printRequest(url, null, headers);
+      final Response response = await get(uri, headers: headers);
+      printResponse(url, response);
       if (response.statusCode == 200) {
-        final decodedJson = jsonDecode(response.body);
+        final decodeData = jsonDecode(response.body);
         return NetworkResponse(
           isSuccess: true,
           statusCode: response.statusCode,
-          data: decodedJson,
+          responseData: decodeData,
         );
       } else if (response.statusCode == 401) {
-        _moveToLoginScreen();
+        _moveToLogin();
         return NetworkResponse(
-          isSuccess: false,
-          statusCode: response.statusCode,
-          errorMessage: 'Login Expired',
+            isSuccess: false,
+            statusCode: response.statusCode,
+            errorMessage: 'Unauthenticated!'
         );
-      } else {
-        final decodedJson = jsonDecode(response.body);
-        String errorMessage = decodedJson['data'];
-        _postRequestLog(-1, url, errorMessage: errorMessage);
-        showPopUp(TaskManager.navigatorKey.currentContext, errorMessage,true);
+      }
+      else {
         return NetworkResponse(
           isSuccess: false,
           statusCode: response.statusCode,
-          data: decodedJson,
-          errorMessage: errorMessage
         );
       }
     } catch (e) {
-      if(e is SocketException){
-        showPopUp(TaskManager.navigatorKey.currentContext, 'Check your internet connection');
-      }else if(e is FormatException){
-
-        showPopUp(TaskManager.navigatorKey.currentContext,'Try with a small size image');
-      }
-      _postRequestLog(-1, url, errorMessage: e.toString());
       return NetworkResponse(
         isSuccess: false,
         statusCode: -1,
@@ -136,48 +49,78 @@ class NetworkClient {
     }
   }
 
-  static void _preRequestLog({
-    required String url,
-    Map<String, dynamic>? body,
-    Map<String, String>? headers,
-  }) {
-    _logger.i(
-      '++++++ THIS IS FROM PRE REQUEST LOG++++++++'
-      'Url => $url\n'
-      'Body: ${body ?? ''}\n'
-      'Headers ==>> $headers',
-    );
-  }
-
-  static void _postRequestLog(
-    int statusCode,
-    String url, {
-    dynamic body,
-    Map<String, dynamic>? headers,
-    dynamic errorMessage,
-  }) {
-    if (errorMessage != null) {
-      _logger.e(
-        ''
-        'Url: $url\n'
-        'Status code: $statusCode\n'
-        'Error Message: $errorMessage',
+  static Future<NetworkResponse> postRequest(
+      {required String url, Map<String, dynamic>? body}) async {
+    try {
+      Uri uri = Uri.parse(url);
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'token': AuthController.accessToken.toString(),
+      };
+      printRequest(url, body, headers);
+      final Response response = await post(
+        uri,
+        headers: headers,
+        body: jsonEncode(body),
       );
-    } else {
-      _logger.i(
-        'Url: $url\n'
-        'Status code: $statusCode\n'
-        'Headers: $headers\n'
-        'Response: $body',
+      printResponse(url, response);
+      if (response.statusCode == 200) {
+        final decodeData = jsonDecode(response.body);
+
+        if (decodeData['status'] == 'fail') {
+          return NetworkResponse(
+            isSuccess: false,
+            statusCode: response.statusCode,
+            errorMessage: decodeData['data'],
+          );
+        }
+
+        return NetworkResponse(
+          isSuccess: true,
+          statusCode: response.statusCode,
+          responseData: decodeData,
+        );
+      } else if (response.statusCode == 401) {
+        _moveToLogin();
+        return NetworkResponse(
+            isSuccess: false,
+            statusCode: response.statusCode,
+            errorMessage: 'Unauthenticated!'
+        );
+      } else {
+        return NetworkResponse(
+          isSuccess: false,
+          statusCode: response.statusCode,
+        );
+      }
+    } catch (e) {
+      return NetworkResponse(
+        isSuccess: false,
+        statusCode: -1,
+        errorMessage: e.toString(),
       );
     }
   }
 
-  static _moveToLoginScreen() {
-    Navigator.pushNamedAndRemoveUntil(
-      TaskManager.navigatorKey.currentContext!,
-      '/login',
-      (route) => false,
+  static void printRequest(
+      String url, Map<String, dynamic>? body, Map<String, dynamic>? headers) {
+    debugPrint(
+      'REQUEST:\nURL: $url\nBODY: $body\nHEADERS: $headers',
+    );
+  }
+
+  static void printResponse(String url, Response response) {
+    debugPrint(
+      'URL: $url\nRESPONSE CODE: ${response.statusCode}\nBODY: ${response.body}',
+    );
+  }
+
+  static Future<void> _moveToLogin() async {
+    await AuthController.clearUserData();
+    Navigator.pushAndRemoveUntil(
+      TaskManagerApp.navigatorKey.currentContext!,
+      MaterialPageRoute(builder: (context) => const SignInScreen()),
+          (p) => false,
     );
   }
 }
