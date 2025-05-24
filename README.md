@@ -1,5 +1,5 @@
 #  Ostad Batch 9, Module 19
-Task Manager App -
+# Task Manager App -
 
 A simple and clean **Task Manager** app built using **Flutter** and **GetX**.  
 This project is part of the **Ostad Batch 9 Module-19 assignment** focused on **API integration** in Flutter apps. The app allows users to easily add, view, and delete tasks with a responsive UI and RESTful API integration.
