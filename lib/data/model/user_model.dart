@@ -1,96 +1,48 @@
-// Beginner Model;
-
-// class UserModel{
-//   late final String id;
-//   late final String email;
-//   late final String firstName;
-//   late final String lastName;
-//   late final String mobile;
-//   late final String createDate;
-//
-//
-//
-//   void convertJsonToDart(Map<String, dynamic>jsonData ){
-//     id=jsonData['_id'];
-//     email = jsonData['email'];
-//     firstName = jsonData['firstName'];
-//     lastName = jsonData['lastName'];
-//     mobile = jsonData['mobile'];
-//     createDate = jsonData['createdDate'];
-//   }
-// }
-
-// "data": {
-// "_id": "672ddc84ea7d73dfecf4e384",
-// "email": "email@gmail.com",
-// "firstName": "a",
-// "lastName": "a",
-// "mobile": "01716874981",
-// "createdDate": "2024-11-01T12:20:25.401Z"
-// },
-
-//
-// intermediate model style
-
 class UserModel {
-  late final String id;
-  late final String email;
-  late final String firstName;
-  late final String lastName;
-  late final String mobile;
-  late final String createDate;
-  late final String photo;
+  String? sId;
+  String? email;
+  String? firstName;
+  String? lastName;
+  String? mobile;
+  String? password;
+  String? photo;
+  String? createdDate;
 
-  UserModel.convertJsonToDart(Map<String, dynamic> jsonData) {
-    id = jsonData['_id'] ?? '';
-    email = jsonData['email'] ?? '';
-    firstName = jsonData['firstName'] ?? '';
-    lastName = jsonData['lastName'] ?? '';
-    mobile = jsonData['mobile'] ?? '';
-    createDate = jsonData['createdDate'] ?? '';
-    photo = jsonData['photo'] ?? '';
+  String get fullName {
+    return '${firstName ?? ''} ${lastName ?? ''}';
+  }
+
+  UserModel(
+      {this.sId,
+        this.email,
+        this.firstName,
+        this.lastName,
+        this.mobile,
+        this.password,
+        this.photo,
+        this.createdDate});
+
+  UserModel.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    email = json['email'];
+    firstName = json['firstName'];
+    lastName = json['lastName'];
+    mobile = json['mobile'];
+    password = json['password'];
+    photo = json['photo'];
+    createdDate = json['createdDate'];
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'email': email,
-      'firstName': firstName,
-      'lastName': lastName,
-      'mobile': mobile,
-      'createdDate': createDate,
-      'photo': photo,
-    };
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['email'] = email;
+    data['firstName'] = firstName;
+    data['lastName'] = lastName;
+    data['mobile'] = mobile;
+    data['password'] = password;
+    data['photo'] = photo;
+    data['createdDate'] = createdDate;
+    return data;
   }
 }
-
-//professionalModel;
-
-// class UserModel {
-//   final String id;
-//   final String email;
-//   final String firstName;
-//   final String lastName;
-//   final String mobile;
-//   final String createdDate;
-//
-//   UserModel({
-//     required this.id,
-//     required this.email,
-//     required this.firstName,
-//     required this.lastName,
-//     required this.mobile,
-//     required this.createdDate,
-//   });
-//
-//   factory UserModel.convertJsonToDart(Map<String, dynamic> jsonData) {
-//     return UserModel(
-//       id: jsonData['_id'] ?? '',
-//       email: jsonData['_id'] ?? '',
-//       firstName: jsonData['_id'] ?? '',
-//       lastName: jsonData['_id'] ?? '',
-//       mobile: jsonData['_id'] ?? '',
-//       createdDate: jsonData['_id'] ?? '',
-//     );
-//   }
-// }
