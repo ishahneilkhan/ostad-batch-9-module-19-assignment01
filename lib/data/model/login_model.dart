@@ -1,13 +1,27 @@
-import 'package:task_manager_task/data/model/user_model.dart';
 
-class LoginModel{
-  late final String status;
-  late final String token;
-  late final UserModel userModel;
+import 'package:tm_getx/data/models/user_model.dart';
 
-  LoginModel.fromJson(Map<String,dynamic> jsonData){
-    status = jsonData['status']??'';
-    token = jsonData['token']??'';
-      userModel = UserModel.convertJsonToDart(jsonData['data']??{});
+class LoginModel {
+  String? status;
+  List<UserModel>? data;
+  String? token;
+
+  LoginModel({this.status, this.data, this.token});
+
+  LoginModel.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+
+    if (json['data'] != null) {
+      if (json['data'] is List) {
+        data = (json['data'] as List)
+            .map((v) => UserModel.fromJson(v))
+            .toList();
+      } else if (json['data'] is Map<String, dynamic>) {
+        data = [UserModel.fromJson(json['data'])];
+      }
+    }
+
+    token = json['token'];
   }
+
 }
